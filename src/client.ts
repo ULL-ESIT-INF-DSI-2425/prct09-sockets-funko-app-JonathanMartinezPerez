@@ -5,77 +5,67 @@ import chalk from 'chalk';
 import { FunkoPop, FunkoType, FunkoGenre } from './funko.js';
 import { RequestType, ResponseType } from './types.js';
 
+const funkoOptions = {
+  user: { type: 'string' as const, demandOption: true },
+  id: { type: 'number' as const, demandOption: true },
+  name: { type: 'string' as const, demandOption: true },
+  description: { type: 'string' as const, demandOption: true },
+  type: { type: 'string' as const, choices: Object.values(FunkoType), demandOption: true },
+  genre: { type: 'string' as const, choices: Object.values(FunkoGenre), demandOption: true },
+  franchise: { type: 'string' as const, demandOption: true },
+  number: { type: 'number' as const, demandOption: true },
+  exclusive: { type: 'boolean' as const, demandOption: true },
+  specialFeatures: { type: 'string' as const, demandOption: true },
+  marketValue: { type: 'number' as const, demandOption: true }
+};
+
+const idOptions = {
+  user: { type: 'string' as const, demandOption: true },
+  id: { type: 'number' as const, demandOption: true }
+};
+
+const userOption = {
+  user: { type: 'string' as const, demandOption: true }
+};
+
+function createFunkoFromArgs(argv: any): FunkoPop {
+  return {
+    id: argv.id,
+    name: argv.name,
+    description: argv.description,
+    type: argv.type as FunkoType,
+    genre: argv.genre as FunkoGenre,
+    franchise: argv.franchise,
+    number: argv.number,
+    exclusive: argv.exclusive,
+    specialFeatures: argv.specialFeatures,
+    marketValue: argv.marketValue
+  };
+}
+
 yargs(hideBin(process.argv))
-  .command('add', 'Añade un Funko', {
-    user: { type: 'string', demandOption: true },
-    id: { type: 'number', demandOption: true },
-    name: { type: 'string', demandOption: true },
-    description: { type: 'string', demandOption: true },
-    type: { type: 'string', choices: Object.values(FunkoType), demandOption: true },
-    genre: { type: 'string', choices: Object.values(FunkoGenre), demandOption: true },
-    franchise: { type: 'string', demandOption: true },
-    number: { type: 'number', demandOption: true },
-    exclusive: { type: 'boolean', demandOption: true },
-    specialFeatures: { type: 'string', demandOption: true },
-    marketValue: { type: 'number', demandOption: true }
-  }, (argv) => {
-    const funko: FunkoPop = {
-      id: argv.id,
-      name: argv.name,
-      description: argv.description,
-      type: argv.type as FunkoType,
-      genre: argv.genre as FunkoGenre,
-      franchise: argv.franchise,
-      number: argv.number,
-      exclusive: argv.exclusive,
-      specialFeatures: argv.specialFeatures,
-      marketValue: argv.marketValue
-    };
-    sendRequest({ type: 'add', user: argv.user, funkoPop: funko });
+  .command('add', 'Añade un Funko', funkoOptions, (argv) => {
+    sendRequest({
+      type: 'add',
+      user: argv.user || '',
+      funkoPop: createFunkoFromArgs(argv)
+    });
   })
-  .command('update', 'Actualiza un Funko', {
-    user: { type: 'string', demandOption: true },
-    id: { type: 'number', demandOption: true },
-    name: { type: 'string', demandOption: true },
-    description: { type: 'string', demandOption: true },
-    type: { type: 'string', choices: Object.values(FunkoType), demandOption: true },
-    genre: { type: 'string', choices: Object.values(FunkoGenre), demandOption: true },
-    franchise: { type: 'string', demandOption: true },
-    number: { type: 'number', demandOption: true },
-    exclusive: { type: 'boolean', demandOption: true },
-    specialFeatures: { type: 'string', demandOption: true },
-    marketValue: { type: 'number', demandOption: true }
-  }, (argv) => {
-    const funko: FunkoPop = {
-      id: argv.id,
-      name: argv.name,
-      description: argv.description,
-      type: argv.type as FunkoType,
-      genre: argv.genre as FunkoGenre,
-      franchise: argv.franchise,
-      number: argv.number,
-      exclusive: argv.exclusive,
-      specialFeatures: argv.specialFeatures,
-      marketValue: argv.marketValue
-    };
-    sendRequest({ type: 'update', user: argv.user, funkoPop: funko });
+  .command('update', 'Actualiza un Funko', funkoOptions, (argv) => {
+    sendRequest({
+      type: 'update',
+      user: argv.user || '',
+      funkoPop: createFunkoFromArgs(argv)
+    });
   })
-  .command('remove', 'Elimina un Funko', {
-    user: { type: 'string', demandOption: true },
-    id: { type: 'number', demandOption: true }
-  }, (argv) => {
-    sendRequest({ type: 'remove', user: argv.user, id: argv.id });
+  .command('remove', 'Elimina un Funko', idOptions, (argv) => {
+    sendRequest({ type: 'remove', user: argv.user || '', id: argv.id });
   })
-  .command('read', 'Muestra un Funko', {
-    user: { type: 'string', demandOption: true },
-    id: { type: 'number', demandOption: true }
-  }, (argv) => {
-    sendRequest({ type: 'read', user: argv.user, id: argv.id });
+  .command('read', 'Muestra un Funko', idOptions, (argv) => {
+    sendRequest({ type: 'read', user: argv.user || '', id: argv.id });
   })
-  .command('list', 'Lista todos los Funkos de un usuario', {
-    user: { type: 'string', demandOption: true }
-  }, (argv) => {
-    sendRequest({ type: 'list', user: argv.user });
+  .command('list', 'Lista todos los Funkos de un usuario', userOption, (argv) => {
+    sendRequest({ type: 'list', user: argv.user || '' });
   })
   .argv;
 
