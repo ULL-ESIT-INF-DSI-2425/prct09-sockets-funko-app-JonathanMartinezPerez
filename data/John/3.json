@@ -1,0 +1,12 @@
+{
+  "id": 3,
+  "name": "Goku",
+  "description": "Dragon Ball Z Hero",
+  "type": "Vynil Soda",
+  "genre": "Ánime",
+  "franchise": "Dragon Ball Z",
+  "number": 3,
+  "exclusive": false,
+  "specialFeatures": "Super Saiyan glow",
+  "marketValue": 25
+}

@@ -1,0 +1,12 @@
+{
+  "id": 2,
+  "name": "Spider-Man",
+  "description": "Marvel Hero",
+  "type": "Pop!",
+  "genre": "Animación",
+  "franchise": "Marvel",
+  "number": 2,
+  "exclusive": true,
+  "specialFeatures": "Metallic finish",
+  "marketValue": 30
+}

@@ -1,0 +1,12 @@
+{
+  "id": 5,
+  "name": "Pikachu",
+  "description": "Electric Pokémon",
+  "type": "Pop!",
+  "genre": "Ánime",
+  "franchise": "Pokémon",
+  "number": 5,
+  "exclusive": false,
+  "specialFeatures": "Flocked",
+  "marketValue": 35
+}

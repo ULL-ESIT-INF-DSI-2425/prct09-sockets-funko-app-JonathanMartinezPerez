@@ -1,0 +1,12 @@
+{
+  "id": 4,
+  "name": "Harry Potter",
+  "description": "Wizard from Hogwarts",
+  "type": "Pop! Rides",
+  "genre": "Películas y TV",
+  "franchise": "Harry Potter",
+  "number": 4,
+  "exclusive": true,
+  "specialFeatures": "With broomstick",
+  "marketValue": 40
+}
