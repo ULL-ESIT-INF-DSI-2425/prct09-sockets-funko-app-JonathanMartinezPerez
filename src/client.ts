@@ -43,7 +43,7 @@ function createFunkoFromArgs(argv: any): FunkoPop {
   };
 }
 
-yargs(hideBin(process.argv))
+export const commands = yargs(hideBin(process.argv))
   .scriptName('funko-client')
   .usage('$0 <cmd> [args]')
   .command('add', 'Añade un Funko', funkoOptions, (argv) => {
@@ -70,7 +70,7 @@ yargs(hideBin(process.argv))
     sendRequest({ type: 'list', user: argv.user || '' });
   })
   .help()
-  .argv;
+  .argv
 
   function sendRequest(request: RequestType) {
     return new Promise<void>((resolve, reject) => {
