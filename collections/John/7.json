@@ -1,0 +1,12 @@
+{
+  "id": 7,
+  "name": "Iron Man",
+  "description": "Classic suit",
+  "type": "Pop!",
+  "genre": "Películas y TV",
+  "franchise": "Marvel",
+  "number": 42,
+  "exclusive": true,
+  "specialFeatures": "Brilla en la oscuridad",
+  "marketValue": 150
+}
