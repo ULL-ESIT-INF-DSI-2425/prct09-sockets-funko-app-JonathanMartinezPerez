@@ -14,7 +14,7 @@ export type RequestType = {
  * Tipo para las respuestas del servidor al cliente
  */
 export type ResponseType = {
-  type: 'add' | 'update' | 'remove' | 'read' | 'list';
+  type: 'add' | 'update' | 'remove' | 'read' | 'list' | 'error';
   success: boolean;
   message?: string;
   funkoPops?: FunkoPop[];

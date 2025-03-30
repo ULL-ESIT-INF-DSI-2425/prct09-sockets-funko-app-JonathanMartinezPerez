@@ -1,0 +1,12 @@
+{
+  "id": 3,
+  "name": "Darth Vader",
+  "description": "Con capa",
+  "type": "Pop!",
+  "genre": "Películas y TV",
+  "franchise": "Star Wars",
+  "number": 501,
+  "exclusive": true,
+  "specialFeatures": "Con luz",
+  "marketValue": 300
+}

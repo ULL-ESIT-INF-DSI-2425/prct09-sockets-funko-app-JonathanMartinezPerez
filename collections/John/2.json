@@ -1,0 +1,12 @@
+{
+  "id": 2,
+  "name": "Mickey Mouse",
+  "description": "Classic version",
+  "type": "Pop!",
+  "genre": "Animación",
+  "franchise": "Disney",
+  "number": 42,
+  "exclusive": false,
+  "specialFeatures": "Ninguna",
+  "marketValue": 50
+}
