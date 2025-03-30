@@ -5,8 +5,17 @@ import { FunkoPop } from './funko.js';
 import { RequestType, ResponseType } from './types.js';
 import { MessageEventEmitterServer } from './eventEmitterClient.js';
 
+/**
+ * Servidor de eventos para manejar peticiones de FunkoPops.
+ */
 const server = new MessageEventEmitterServer(60300);
 
+/**
+ * Manejador de eventos para la conexión del cliente.
+ * @param request Petición del cliente.
+ * @param request.type Tipo de operación (add, update, remove, read, list).
+ * @param socket Socket de la conexión.
+ */
 server.on('request', (request: RequestType, connection: net.Socket) => {
   console.log('Petición recibida:', request);
 
@@ -51,10 +60,19 @@ server.on('request', (request: RequestType, connection: net.Socket) => {
   server.sendResponse(connection, response);
 });
 
+/**
+ * Manejador de eventos para errores del servidor.
+ */
 server.on('error', (err) => {
   console.error('Error del servidor:', err);
 });
 
+/**
+ * Función para manejar la adición de un FunkoPop a la colección.
+ * @param request Petición del cliente.
+ * @param userDir Directorio del usuario.
+ * @returns Respuesta al cliente.
+ */
 function handleAdd(request: RequestType, userDir: string): ResponseType {
   if (!request.funkoPop) {
     return { type: 'add', success: false, message: 'Datos de Funko no proporcionados' };
@@ -73,6 +91,12 @@ function handleAdd(request: RequestType, userDir: string): ResponseType {
   }
 }
 
+/**
+ * Función para manejar la actualización de un FunkoPop en la colección.
+ * @param request Petición del cliente.
+ * @param userDir Directorio del usuario.
+ * @returns Respuesta al cliente.
+ */
 function handleUpdate(request: RequestType, userDir: string): ResponseType {
   if (!request.funkoPop) {
     return { type: 'update', success: false, message: 'Datos de Funko no proporcionados' };
@@ -91,6 +115,12 @@ function handleUpdate(request: RequestType, userDir: string): ResponseType {
   }
 }
 
+/**
+ * Función para manejar la eliminación de un FunkoPop de la colección.
+ * @param request Petición del cliente.
+ * @param userDir Directorio del usuario.
+ * @returns Respuesta al cliente.
+ */
 function handleRemove(request: RequestType, userDir: string): ResponseType {
   if (!request.id) {
     return { type: 'remove', success: false, message: 'ID no proporcionado' };
@@ -109,6 +139,12 @@ function handleRemove(request: RequestType, userDir: string): ResponseType {
   }
 }
 
+/**
+ * Función para manejar la lectura de un FunkoPop de la colección.
+ * @param request Petición del cliente.
+ * @param userDir Directorio del usuario.
+ * @returns Respuesta al cliente.
+ */
 function handleRead(request: RequestType, userDir: string): ResponseType {
   if (!request.id) {
     return { type: 'read', success: false, message: 'ID no proporcionado' };
@@ -128,6 +164,12 @@ function handleRead(request: RequestType, userDir: string): ResponseType {
   }
 }
 
+/**
+ * Función para manejar la lista de los FunkoPops de la colección.
+ * @param request Petición del cliente.
+ * @param userDir Directorio del usuario.
+ * @returns Respuesta al cliente.
+ */
 function handleList(request: RequestType, userDir: string): ResponseType {
   if (!fs.existsSync(userDir)) {
     return { 
@@ -155,8 +197,10 @@ function handleList(request: RequestType, userDir: string): ResponseType {
   }
 }
 
-console.log('Servidor inicializado y esperando conexiones en el puerto 60300');
-
+/**
+ * Función para manejar errores de conexión.
+ * @param err Error de conexión.
+ */
 server.on('error', (err) => {
   if ((err as NodeJS.ErrnoException).code === 'EADDRINUSE') {
     console.error('Error: El puerto 60300 ya está en uso');
@@ -168,6 +212,9 @@ server.on('error', (err) => {
   }
 });
 
+/**
+ * Función para cerrar el servidor al recibir la señal SIGINT.
+ */
 process.on('SIGINT', () => {
   console.log('\nCerrando servidor...');
   server.close();

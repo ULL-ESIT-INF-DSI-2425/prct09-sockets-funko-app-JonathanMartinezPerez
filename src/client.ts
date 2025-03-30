@@ -5,6 +5,9 @@ import { FunkoPop, FunkoType, FunkoGenre } from './funko.js';
 import { RequestType, ResponseType } from './types.js';
 import { MessageEventEmitterClient } from './eventEmitterClient.js';
 
+/** 
+ * Definición de opciones para los comandos
+ */
 const funkoOptions = {
   user: { type: 'string' as const, demandOption: true },
   id: { type: 'number' as const, demandOption: true },
@@ -19,15 +22,26 @@ const funkoOptions = {
   marketValue: { type: 'number' as const, demandOption: true }
 };
 
+/** 
+ * Definición de opciones para los comandos que requieren ID
+ */
 const idOptions = {
   user: { type: 'string' as const, demandOption: true },
   id: { type: 'number' as const, demandOption: true }
 };
 
+/**
+ * Definición de opciones para el comando list
+ */
 const userOption = {
   user: { type: 'string' as const, demandOption: true }
 };
 
+/**
+ * Función para crear un objeto FunkoPop a partir de los argumentos de la línea de comandos
+ * @param argv 
+ * @returns FunkoPop
+ */
 function createFunkoFromArgs(argv: any): FunkoPop {
   return {
     id: argv.id,
@@ -43,10 +57,13 @@ function createFunkoFromArgs(argv: any): FunkoPop {
   };
 }
 
+/**
+ * Función para enviar una solicitud al servidor
+ * @param request RequestType
+ */
 function sendRequest(request: RequestType) {
   const client = new MessageEventEmitterClient({ port: 60300 });
 
-  // Configurar timeout para desconectar después de 5 segundos
   const timeout = setTimeout(() => {
     console.error(chalk.red('Error: Tiempo de espera agotado'));
     process.exit(1);
@@ -67,6 +84,10 @@ function sendRequest(request: RequestType) {
   client.sendRequest(request);
 }
 
+/**
+ * Función para manejar la respuesta del servidor
+ * @param response ResponseType
+ */
 function handleResponse(response: ResponseType) {
   if (response.success) {
     if (response.type === 'list' && response.funkoPops) {
@@ -84,6 +105,10 @@ function handleResponse(response: ResponseType) {
   }
 }
 
+/**
+ * Función para imprimir los detalles de un FunkoPop
+ * @param funko FunkoPop
+ */
 function printFunkoDetails(funko: FunkoPop) {
   console.log(chalk.blue('--------------------------------'));
   console.log(chalk.bold(`ID: ${funko.id}`));
@@ -105,7 +130,9 @@ function printFunkoDetails(funko: FunkoPop) {
   console.log(chalk.blue('--------------------------------'));
 }
 
-// Configuración de yargs
+/**
+ * Función principal para ejecutar el cliente
+ */
 yargs(hideBin(process.argv))
   .scriptName('funko-client')
   .usage('$0 <cmd> [args]')

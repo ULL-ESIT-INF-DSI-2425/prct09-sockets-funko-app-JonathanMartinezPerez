@@ -2,10 +2,18 @@ import net from 'net';
 import { EventEmitter } from 'events';
 import { RequestType, ResponseType } from './types.js';
 
+/**
+ * Clase que representa un cliente de socket TCP
+ */
 export class MessageEventEmitterClient extends EventEmitter {
+  /**
+   * Cliente TCP
+   */
   private client: net.Socket;
-  disconnect: any;
-  
+  /**
+   * Constructor de la clase MessageEventEmitterClient
+   * @param connectionOptions Opciones de conexión para el cliente
+   */
   constructor(connectionOptions: net.NetConnectOpts) {
     super();
     this.client = net.connect(connectionOptions);
@@ -27,7 +35,7 @@ export class MessageEventEmitterClient extends EventEmitter {
         messageLimit = wholeData.indexOf('\n');
       }
     });
-
+    
     this.client.on('error', (err) => {
       this.emit('error', err);
     });
@@ -46,9 +54,18 @@ export class MessageEventEmitterClient extends EventEmitter {
   }
 }
 
+/**
+ * Clase que representa un servidor de socket TCP
+ */
 export class MessageEventEmitterServer extends EventEmitter {
+  /**
+   * Servidor TCP
+   */
   private server: net.Server;
-
+  /**
+   * Constructor de la clase MessageEventEmitterServer
+   * @param port Puerto en el que el servidor escuchará las conexiones
+   */
   constructor(port: number) {
     super();
     this.server = net.createServer({ allowHalfOpen: true }, (connection) => {
