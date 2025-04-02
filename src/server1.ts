@@ -20,8 +20,11 @@ const server = net.createServer((socket) => {
       if (error) {
         socket.write(`Error: ${stderr}`);
       } else {
+        // Enviamos el resultado completo como un único mensaje
         socket.write(`\n-----Resultado:-----\n${stdout}`);
       }
+      // Cerramos la conexión después de enviar la respuesta
+      socket.end();
     });
   });
 

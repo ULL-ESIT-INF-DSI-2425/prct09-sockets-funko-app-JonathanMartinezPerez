@@ -24,24 +24,24 @@ const client = net.connect({ port: 60300 }, () => {
 });
 
 /**
- * Cuando el cliente recibe datos del servidor, los muestra en la consola
- * y cierra la conexión.
+ * Acumulamos los datos recibidos en fragmentos.
  */
-client.on('data', (data) => {
-  console.log(`Respuesta del servidor:\n${data.toString()}`);
-  client.end();
+let wholeData = '';
+client.on('data', (dataChunk) => {
+  wholeData += dataChunk;
+});
+
+/**
+ * Cuando se cierra la conexión, mostramos todos los datos acumulados.
+ */
+client.on('end', () => {
+  console.log(`Respuesta completa del servidor:\n${wholeData}`);
+  console.log('Conexión cerrada.');
 });
 
 /**
  * Manejo de errores
-*/
+ */
 client.on('error', (err) => {
   console.error(`Error en el cliente: ${err.message}`);
-});
-
-/**
- * Mensaje al cerrar conexión
- */
-client.on('end', () => {
-  console.log('Conexión cerrada.');
 });
