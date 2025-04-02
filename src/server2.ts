@@ -11,8 +11,8 @@ const server = net.createServer((socket) => {
 
     let delimiterIndex;
     while ((delimiterIndex = buffer.indexOf('\n')) !== -1) {
-      const message = buffer.slice(0, delimiterIndex); // Extrae un mensaje completo
-      buffer = buffer.slice(delimiterIndex + 1); // Resta los datos procesados
+      const message = buffer.slice(0, delimiterIndex);
+      buffer = buffer.slice(delimiterIndex + 1);
 
       try {
         const request = JSON.parse(message);
@@ -23,7 +23,7 @@ const server = net.createServer((socket) => {
             ? { success: false, error: stderr }
             : { success: true, output: stdout };
 
-          socket.write(JSON.stringify(response) + '\n'); // Responde con un delimitador
+          socket.write(JSON.stringify(response) + '\n');
         });
       } catch (err) {
         socket.write(JSON.stringify({ success: false, error: 'Formato JSON inválido' }) + '\n');
