@@ -4,7 +4,7 @@ import { exec } from 'child_process';
 const server = net.createServer((socket) => {
   console.log('Cliente conectado.');
 
-  let buffer = ''; // Buffer para manejar datos fragmentados
+  let buffer = ''; // Buffer
 
   socket.on('data', (data) => {
     buffer += data.toString(); // Acumula los datos recibidos
